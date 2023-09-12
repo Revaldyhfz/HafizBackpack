@@ -6,21 +6,63 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
 ## Questions
 ### 1. How do you implement the tasks in the checklist? Explain in a step-by-step manner (not just copy-paste from the tutorial).
 
-[x] Create a new Django project.
-  - First i created the directory for the project in my local folder the same name as the repository in my github
-  - then i created the environment
-'''
-python -m venv env
-'''
- Create an app with the name main on that project.
- Create a URL routing configuration to access the main app.
- Create a model on the main app with name Item and these mandatory attributes:
-name as the name of the item, with type CharField.
-amount as the amount/count of the item, with type IntegerField.
-description as the description of the item, with type TextField.
- Create a function in views.py that returns an HTML template containing your application name, your name, and your class.
- Create a routing in urls.py to map the function inviews.py to an URL.
- Deploy your app to Adaptable so it can be accessed through the internet.
+[x] Create a new Django Project
+    - first i created the repository on github, corresponding to my local directory for the project
+    - To create a new Django Project first we need to create a virtual environment in command prompt
+    ```
+    python -m venv env
+    ```
+    - Then activate the virtual environment
+    ```
+    env\Scripts\activate
+    ```
+    - then i added a txt files containing some required dependecies with the name requirements.txt
+    - while the environment is still active, i ran the comment
+    ```
+    pip install -r requirements.txt
+    ```
+    - then i created the django project with the command:
+    ```
+    django-admin startproject HafizBackpack .
+    ```
+    - a `main` folder will appear
+    - then go into the `settings.py` file, and added "*" in the `ALLOWED_HOSTS`, which is a security measure to prevent HTTP Host header attacks
+    - and lastly added a .gitignore file
+[x] Create an app with the name `main`.
+    - i ran this comment so that the initial structure appear
+    ```
+    python manage.py startapp main
+    ```
+    - in `settings.py` i added 'main' in the `INSTALLED_APPS` section
+    - then i created a folder named `templates` inside the `main` directory and added `main.html` inside the folder
+4. Create a URL routing configuration to access the `main` app.
+    - in `urls.py`file, i added `path('main/', include('main.urls'))` to connect it to the main view.
+5. Create a model on the `main` app with name `Item` and add some mandatory attributes
+    - Inside `models.py` i added extra attributes such as:
+        - `name`
+        - `date_added`
+        - `amount`
+        - `description`
+        - `fruit_type`
+6. Create a function in `views.py` that returns an HTML template containing my application name, your name, and your class.
+    - i added all the required description corresponding to the checklist in the show_main function
+    - with this line to returns the main.html
+    ```
+    return render(request, 'main.html', context)
+    ```
+7. Create a routing in `urls.py` to map the function in `views.py` to an URL
+    - inside the `urls.py` in my HafizBackpack directory, i added the url pattern
+    ```
+    path('main/', include('main.urls'))
+    ```
+8. Deploy the app to adaptable
+    - Add, commit, push the project to my repo in github
+    - in Adaptable, i choose my repo to be deployed
+    - using Python App template as the template, Postgresql as the databse type and added the command 
+    ```
+    python manage.py migrate && gunicorn shopping_list.wsgi
+    ```
+    - before deployinh the app
 ### 2. Create a diagram explaining the flow of client requests to a Django web app and its response. Also in the diagram, explain the connections between urls.py, views.py, models.py, and the HTML file(s).
 
 
