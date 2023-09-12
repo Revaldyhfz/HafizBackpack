@@ -9,9 +9,9 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
 [x] Create a new Django project.
   - First i created the directory for the project in my local folder the same name as the repository in my github
   - then i created the environment
-    '''
-    python -m venv env
-    '''
+'''
+python -m venv env
+'''
  Create an app with the name main on that project.
  Create a URL routing configuration to access the main app.
  Create a model on the main app with name Item and these mandatory attributes:
