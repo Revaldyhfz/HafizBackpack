@@ -6,7 +6,8 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
 ## Questions
 ### 1. How do you implement the tasks in the checklist? Explain in a step-by-step manner (not just copy-paste from the tutorial).
 
-[x] Create a new Django Project(`<br>`)
+[x] Create a new Django Project<br />
+
     - first i created the repository on github, corresponding to my local directory for the project(`<br>`)
     - To create a new Django Project first we need to create a virtual environment in command prompt(`<br>`)
     ```
