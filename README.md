@@ -6,6 +6,17 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
 ## Questions
 ### 1. How do you implement the tasks in the checklist? Explain in a step-by-step manner (not just copy-paste from the tutorial).
 
+#### 1. Create a new Django project
+  - first i create a new Django Project by creating the virtual environment
+  ---
+  python -m venv env
+  ---
+  - to activate virtual environment
+  ---
+  env\Scripts\activate
+  ---
+  - then i added a file which contains some dependecies named 'requirements.txt'
+  - i then run the the command
 ### 2. Create a diagram explaining the flow of client requests to a Django web app and its response. Also in the diagram, explain the connections between urls.py, views.py, models.py, and the HTML file(s).
 
 
