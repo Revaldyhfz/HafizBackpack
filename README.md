@@ -6,7 +6,7 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
 ## Questions
 ### 1. How do you implement the tasks in the checklist? Explain in a step-by-step manner (not just copy-paste from the tutorial).
 
-[x] Create a new Django Project.
+1. Create a new Django Project.
 
     - first i created the repository on github, corresponding to my local directory for the project.
     - To create a new Django Project first we need to create a virtual environment in command prompt.
@@ -29,7 +29,7 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
     - a `main` folder will appear.
     - then go into the `settings.py` file, and added "*" in the `ALLOWED_HOSTS`, which is a security measure to prevent HTTP Host header attacks.
     - and lastly added a .gitignore file.
-[x] Create an app with the name `main`.
+2. Create an app with the name `main`.
     - i ran this comment so that the initial structure appear.
     ```
     python manage.py startapp main
