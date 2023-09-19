@@ -8,11 +8,14 @@ from django.core import serializers
 
 def show_main(request):
     products = Product.objects.all()
+    counter = products.count
 
     context = {
         'name': 'Revaldy Hafizhy Mukhtar', # Your name
         'class': 'PBP KI', # Your PBP Class
-        'products': products
+        'products': products,
+        'counter' : counter
+        
     }
 
     return render(request, "main.html", context)
