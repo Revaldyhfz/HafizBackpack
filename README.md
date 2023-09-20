@@ -92,25 +92,25 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 ## Answers
 
 ### What is the difference between POST form and GET form? 
-we use GET when you want to retrieve data from the server without modifying it, on the other hand we use POST when you want to send data to the server to create, update, or perform other actions that may have side effects.
+- we use GET when you want to retrieve data from the server without modifying it, on the other hand we use POST when you want to send data to the server to create, update, or perform other actions that may have side effects.
 
 ### What are the main differences between XML, JSON, and HTML in the context of data delivery?
-HTML serves as the foundational language for web development, primarily responsible for defining the structure and content of web pages. On the other hand, JSON and XML are both used for data transport between servers, but they each have distinct characteristics. JSON is ideal for lightweight data interchange and JavaScript integration, while XML is better suited for structured and self-describing data with custom tags and attributes.
+- HTML serves as the foundational language for web development, primarily responsible for defining the structure and content of web pages. On the other hand, JSON and XML are both used for data transport between servers, but they each have distinct characteristics. JSON is ideal for lightweight data interchange and JavaScript integration, while XML is better suited for structured and self-describing data with custom tags and attributes.
 
 ### Why is JSON often used in data exchange between modern web applications?
-JSON is frequently employed in data exchange between modern web applications because of its efficiency, simplicity, and seamless integration with JavaScript, which is a fundamental language for web development.
+- JSON is frequently employed in data exchange between modern web applications because of its efficiency, simplicity, and seamless integration with JavaScript, which is a fundamental language for web development.
 
 ### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 1. Create a form input to add a model object to the previous app.
-    First i create a new file inside the 'main' folder named 'forms.py', where fields from the 'models.py' will be accepted
-2. Create a function to accepts 'request' parameter
-    i named the function as 'create_product' where it checks if the form submitted is valid then saved and add the new product
-3. Modify the 'show_main' function in 'views.py'
-    i Added 'Products.objects.all' and added a 'counter' to count how many items has been added later on in the interface
-4. Creating multiple lines in to view the added objects in 'views.py'. 
-    in 'views.py' i added 4 function named 'show_xml', 'show_json', 'show_xml_by_id', 'show_json_by_id', which each function is used to translate an object to a different format corresponding to the function.
-5. Adding urls path in 'urls.py' including the 'create_product' function.
-    in the 'urlpatterns' i added 5 new path for xml, json, xml by id, json by id and the create_product function
+    - First i create a new file inside the `main` folder named `forms.py`, where fields from the `models.py` will be accepted
+2. Create a function to accepts `request` parameter
+    - i named the function as `create_product` where it checks if the form submitted is valid then saved and add the new product
+3. Modify the `show_main` function in `views.py`
+    i Added `Products.objects.all` and added a `counter` to count how many items has been added later on in the interface
+4. Creating multiple lines in to view the added objects in `views.py`. 
+    in `views.py` i added 4 function named `show_xml`, `show_json`, `show_xml_by_id`, `show_json_by_id`, which each function is used to translate an object to a different format corresponding to the function.
+5. Adding urls path in `urls.py` including the `create_product`  function.
+    in the `urlpatterns` i added 5 new path for xml, json, xml by id, json by id and the `create_product` function
 
 ### Access the five URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
 <img src="/Assets/json.png">
