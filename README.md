@@ -106,15 +106,15 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 2. Create a function to accepts `request` parameter
     - i named the function as `create_product` where it checks if the form submitted is valid then saved and add the new product
 3. Modify the `show_main` function in `views.py`
-    i Added `Products.objects.all` and added a `counter` to count how many items has been added later on in the interface
+    - i Added `Products.objects.all` and added a `counter` to count how many items has been added later on in the interface
 4. Creating multiple lines in to view the added objects in `views.py`. 
-    in `views.py` i added 4 function named `show_xml`, `show_json`, `show_xml_by_id`, `show_json_by_id`, which each function is used to translate an object to a different format corresponding to the function.
+    - in `views.py` i added 4 function named `show_xml`, `show_json`, `show_xml_by_id`, `show_json_by_id`, which each function is used to translate an object to a different format corresponding to the function.
 5. Adding urls path in `urls.py` including the `create_product`  function.
-    in the `urlpatterns` i added 5 new path for xml, json, xml by id, json by id and the `create_product` function
+    - in the `urlpatterns` i added 5 new path for xml, json, xml by id, json by id and the `create_product` function
 
 ### Access the five URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
-<img src="/Assets/json.png">
-<img src="/Assets/jsonbyid.png">
-<img src="/Assets/XML.png">
-<img src="/Assets/xmlbyid.png">
-<img src="/Assets/main.png">
+<img src="/Assets/json.PNG">
+<img src="/Assets/jsonbyid.PNG">
+<img src="/Assets/XML.PNG">
+<img src="/Assets/xmlbyid.PNG">
+<img src="/Assets/main.PNG">
