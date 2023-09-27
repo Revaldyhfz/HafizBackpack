@@ -14,7 +14,7 @@
 <table>
     <tr>
         <th>Name</th>
-        <th>Price</th>
+        <th>Amount</th>
         <th>Description</th>
         <th>Date Added</th>
         <th>Fruit Type</th>
@@ -29,6 +29,20 @@
             <td>{{product.description}}</td>
             <td>{{product.date_added}}</td>
             <td>{{product.fruit_type}}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="increment" value="{{ product.id }}">
+                        Increase Amount
+                    </button>     
+                    <button type="submit" name="decrement" value="{{ product.id }}">
+                        Decrease Amount
+                    </button>   
+                    <button type="submit" name="delete" value="{{ product.id }}">
+                        Delete Fruit
+                    </button>   
+                </form>
+            </td>
         </tr>
     {% endfor %}
 </table>

@@ -132,3 +132,110 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 <img src="/Assets/XML.PNG">
 <img src="/Assets/xmlbyid.PNG">
 <img src="/Assets/main.PNG">
+
+# Assignment 3
+
+## Answers
+
+### What is UserCreationForm in Django? Explain its advantages and disadvantages.
+- Django UserCreationForm is used to create a new user that can use our web applicant. it has three fields, username, password1, and password2(which is basically used for password confirmation). In summary, UserCreationForm is a powerful tool for quickly implementing user registration and authentication in Django applications. It provides a solid foundation for user management but may require customization and additional development to meet the specific needs of your application, especially if it involves complex registration workflows or additional user data.
+
+### What is the difference between authentication and authorization in Django application? Why are both important?
+-  authentication focuses on verifying user identity, while authorization focuses on controlling what authenticated users can do within the application. Together, they form a comprehensive security framework that protects both user data and the application itself. Neglecting either authentication or authorization can lead to security vulnerabilities, data breaches, and legal liabilities, making it crucial to implement both effectively in any web application.
+
+### What are cookies in website? How does Django use cookies to manage user session data?
+-  Cookies are small pieces of data that websites store on a user's web browser. Django uses cookies to manage user session data by storing a unique session ID in the user's browser. This session ID allows Django to associate the user's requests with their specific session data securely stored on the server.
+
+### Are cookies secure to use? Is there potential risk to be aware of?
+- Cookies themselves are generally secure as they are small pieces of data stored on a user's device by websites to improve user experience. However, there are potential risks associated with cookies, such as privacy concerns when they are used for tracking user behavior without consent, or the possibility of being exploited in certain types of attacks, like cross-site scripting (XSS) or cross-site request forgery (CSRF).
+
+### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+1. Implement registration, login, and logout functions to allow users to access the previous application.
+    - To implement registration, we need first to make a register function inside `views.py`, this functiona automatically creates a registration form for creating an account
+    ```
+    def register(request):
+        form = UserCreationForm()
+
+        if request.method == "POST":
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your account has been successfully created!')
+                return redirect('main:login')
+        context = {'form':form}
+        return render(request, 'register.html', context)
+    ```
+    - next we need to create a login function, that will authenticate a user after an account has been created
+    ```
+    def login_user(request):
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('main:show_main')
+            else:
+                messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+        context = {}
+        return render(request, 'login.html', context)
+    ```
+    - And finally, we create a logout function, that will log out a user
+    ```
+    def logout_user(request):
+        logout(request)
+        return redirect('main:login')
+    ```
+    - Lastly dont forget to add them to the `main.html` and `urls.py`
+
+2. Create two user accounts with three dummy data entries for each account using the model previously created in the application.
+    - To create the users and the data, first we need to run the server,`python manage.py runserver`, and access it with http://localhost:8000/login, after creating the account and logged in, we then can make the dummy data
+
+3. Connect Item model with User.
+    - In `models.py` modified the user variables into
+    ```
+    class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ```
+    where it will make a connection from product to a user'
+    - then modify the `create_product` method 
+    ```
+    def create_product(request):
+        form = ProductForm(request.POST or None)
+
+        if form.is_valid() and request.method == "POST":
+            product = form.save(commit=False)
+            product.user = request.user
+            product.save()
+            return HttpResponseRedirect(reverse('main:show_main'))
+    ```
+    this associates the product with the current logged in user, then saves it into the database. `Commit = False` allows for additional costumization of object before saving
+
+4. Display the information of the logged-in user, such as their username, and applying cookies, such as last login, on the main application page.
+    - modify the `login_user` and `logout_user` function in `views.py`
+    ```
+    if user is not None:
+        login(request, user)
+        response = HttpResponseRedirect(reverse("main:show_main")) 
+        response.set_cookie('last_login', str(datetime.datetime.now()))
+        return response
+    ```
+    thiw will set a cookie indicating their last login time
+    ```
+    def logout_user(request):
+        logout(request)
+        response = HttpResponseRedirect(reverse('main:login'))
+        response.delete_cookie('last_login')
+        return response
+    ```
+    this will delete a specific cookie related to their login time
+
+    - add it to the `show_main` function, inside `context`
+    ```
+    'last_login': request.COOKIES['last_login'],
+    ```
+    where will be used to diplay on the webpage
+
+5.  Create two user accounts with three dummy data entries for each account using the model previously created in the application.
+<img src="/Assets/Robert.PNG">
+<img src="/Assets/hubert.PNG">

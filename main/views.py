@@ -19,6 +19,16 @@ from django.contrib.auth.decorators import login_required
 def show_main(request):
     products = Product.objects.filter(user=request.user)
     counter = products.count
+    if request.method == 'POST':
+        if 'increment' in request.POST:
+            increment(request, products)
+            return HttpResponseRedirect(reverse('main:show_main'))
+        elif 'decrement' in request.POST:
+            decrement(request, products)
+            return HttpResponseRedirect(reverse('main:show_main'))
+        elif 'delete' in request.POST:
+            delete(request, products)
+            return HttpResponseRedirect(reverse('main:show_main'))
 
     context = {
         'name': request.user.username,
@@ -92,4 +102,19 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
-    
+def increment(request, products):  
+    product_id = request.POST.get('increment')
+    product = products.get(id=product_id)
+    product.amount += 1
+    product.save()
+
+def decrement(request, products):   
+    product_id = request.POST.get('decrement')
+    product = products.get(id=product_id)
+    product.amount -= 1
+    product.save()
+
+def delete(request, products):   
+    product_id = request.POST.get('delete')
+    product = products.get(id=product_id)
+    product.delete()
