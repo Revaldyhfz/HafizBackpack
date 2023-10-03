@@ -239,3 +239,156 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 5.  Create two user accounts with three dummy data entries for each account using the model previously created in the application.
 <img src="/Assets/Robert.PNG">
 <img src="/Assets/hubert.PNG">
+
+# Assignment 4
+
+## Answers
+
+### Explain the purpose of some CSS element selector and when to use it.
+- The element selector in CSS is used to select and style HTML elements based on their tag names. For example, to style all <p> elements on a webpage, you can use the p selector in your CSS. Element selectors are useful when you want to apply a consistent style to a specific type of HTML element throughout your website.
+
+### Explain some of the HTML5 tags that you know.
+- <a> Defines a hyperlink.
+- <b> Displays text in a bold style.
+- <div> Specifies a division or a section in a document.
+- <form> Defines an HTML form for user input.
+- <head> Defines the head portion of the document that contains information about the document such as title.
+- <nav> Defines a section of navigation links
+
+### What are the differences between margin and padding?
+#### Margin: 
+- Margin is the space outside an element's border. It creates space between the element and other elements around it. Margin affects the spacing between elements but does not impact the element's background or border.
+
+#### Padding: 
+- Padding is the space inside an element's border. It creates space between the element's content and its border. Padding affects the element's background and content but does not impact its position relative to other elements.
+
+### What are the differences between the CSS framework Tailwind and Bootstrap? When should we use Bootstrap rather than Tailwind, and vice versa?
+#### Tailwind CSS:
+- Tailwind is a utility-first CSS framework. It provides a large set of utility classes that allow you to style elements by applying classes directly in your HTML markup. Tailwind is highly customizable and suitable for projects where you want complete control over the styling.
+
+#### Bootstrap: 
+- Bootstrap is a more opinionated CSS framework that comes with pre-designed components and a responsive grid system. It requires less custom styling and is great for quickly prototyping or building consistent-looking websites.
+
+#### When to use Bootstrap or Tailwind depends on the project:
+- Bootstrap: Use Bootstrap when you want to rapidly develop a responsive website with a predefined look and feel. It's great for projects with tight deadlines or when you don't want to write much custom CSS.
+
+- Tailwind CSS: Use Tailwind when you want full control over your styling and prefer to design your components using utility classes. It's ideal for projects where customization and a unique design are a priority.
+
+### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+1. Customize the HTML templates that you have created in Assignment 4 using CSS or any CSS framework (Bootstrap, Tailwind, Bulma, etc.):
+- i chose Tailwind since ive had experienced with it beforehand
+- here are the Templates i modified using Tailwind
+- i did use a few tools to help me design my page which is [Flowbite](https://flowbite.com/) & [Tailwind](https://tailwindcss.com/), where both websites help me to understand and get ideas to design it
+- here's an example of one of my modified templates
+- `main.html`
+```
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome 
+    <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+        {{name}}
+    </span>
+</h1>
+    
+<p class="text-gray-500 dark:text-gray-400">You have saved <a href="#" class="font-semibold text-gray-900 underline dark:text-white decoration-indigo-500">{{counter}}</a> Fruits in your Backpack
+</p>
+
+<h5 class="text-gray-500 dark:text-gray-400">Last login session: {{ last_login }}</h5>
+<br/>
+
+<div class="relative flex justify-center space-x-4">
+    <a href="{% url 'main:create_product' %}">
+        <button type="button" class="flex items-center text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Add New Product
+        </button>
+    </a>  
+</div>
+<br />
+<div class="relative overflow-x-auto rounded-lg shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">Name</th>
+                <th scope="col" class="px-6 py-3">Amount</th>
+                <th scope="col" class="px-6 py-3">Description</th>
+                <th scope="col" class="px-6 py-3">Date Added</th>
+                <th scope="col" class="px-6 py-3">Fruit Type</th>
+                <th scope="col" class="px-6 py-3">Modify</th>
+            </tr>
+        </thead>
+
+        {% comment %} Below is how to show the product data {% endcomment %}
+        <tbody>
+        {% for product in products %}
+            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <td  scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{product.name}}
+                </td>
+                <td class="px-6 py-4">
+                    <div class="relative flex items-center">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="increment">
+                                
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                </svg>
+                            </button>
+                            <div class="mx-2">
+                                {{product.amount}}
+                            </div>
+                            <button class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="decrement">
+                            
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                <td class="px-6 py-4">{{product.description}}</td>
+                <td class="px-6 py-4">{{product.date_added}}</td>
+                <td class="px-6 py-4">{{product.fruit_type}}</td>
+                <td> 
+                    <a href="{% url 'main:delete_product' product.pk %}">
+                        <button class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                            Remove
+                        </button>   
+                    </a>
+                    
+                    <a href="{% url 'main:edit_product' product.pk %}">
+                        <button class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                            Edit
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="relative flex justify-center space-x-4">
+    <a href="{% url 'main:logout' %}">
+        <button type="button" class="flex items-center text-white bg-black hover:bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center border border-gray-800 dark:border-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+            </svg>
+            Logout
+        </button>
+    </a>
+</div>
+    
+{% endblock content %}
+
+```
+- i added `<div>` to all the elements including the heading, texts and buttons
+- from flowbite, i searched up some templates, and adapt them to my page using resources from tailwind.css
+
