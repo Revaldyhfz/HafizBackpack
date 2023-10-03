@@ -118,3 +118,38 @@ def delete(request, products):
     product_id = request.POST.get('delete')
     product = products.get(id=product_id)
     product.delete()
+    
+def edit_product(request, id):
+    product = Product.objects.get(pk=id)
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('main:show_main'))
+    else:
+        form = ProductForm(instance=product)
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    product = Product.objects.get(pk=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+    
+# def edit_product(request, id):
+
+#     product = Product.objects.get(pk = id)
+
+    
+#     form = ProductForm(request.POST or None, instance=product)
+
+#     if form.is_valid() and request.method == "POST":
+        
+#         form.save()
+#         return HttpResponseRedirect(reverse('main:show_main'))
+
+#     context = {'form': form}
+#     return render(request, "edit_product.html", context)

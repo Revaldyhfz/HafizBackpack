@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="text-center">
+    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        EDIT <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">FRUITS</span>
+    </h1>
+</div>
+
+<div class="min-h-screen flex justify-center items-center">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="w-screen max-w-xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white">Edit Product</h5>
+            
+            <!-- Product Name Field with current value -->
+            <div class="mb-4">
+                <label for="id_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
+                <input type="text" name="name" id="id_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Product Name" value="{{ form.instance.name }}" required>
+            </div>
+            
+            <!-- Amount Field with current value -->
+            <div class="mb-4">
+                <label for="id_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                <input type="number" name="amount" id="id_amount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Amount" value="{{ form.instance.amount }}" required>
+            </div>
+            
+            <!-- Description Field with current value -->
+            <div class="mb-4">
+                <label for="id_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                <div class="max-h-48 overflow-y-auto">
+                    <textarea name="description" id="id_description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Description" rows="4" required>{{ form.instance.description }}</textarea>
+                </div>
+            </div>
+            
+            <!-- Fruit Type Field with current value -->
+            <div class="mb-4">
+                <label for="id_fruit_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fruit Type</label>
+                <select name="fruit_type" id="id_fruit_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    <option value="">Select Fruit Type</option>
+                    <option value="Logia" {% if form.instance.fruit_type == 'Logia' %}selected{% endif %}>Logia</option>
+                    <option value="Paramecia" {% if form.instance.fruit_type == 'Paramecia' %}selected{% endif %}>Paramecia</option>
+                    <option value="Zoan" {% if form.instance.fruit_type == 'Zoan' %}selected{% endif %}>Zoan</option>
+                    <option value="Mythical Zoan" {% if form.instance.fruit_type == 'Mythical Zoan' %}selected{% endif %}>Mythical Zoan</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Product</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
