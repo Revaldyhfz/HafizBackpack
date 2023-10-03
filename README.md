@@ -245,7 +245,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 ## Answers
 
 ### Explain the purpose of some CSS element selector and when to use it.
-- The element selector in CSS is used to select and style HTML elements based on their tag names. For example, to style all <p> elements on a webpage, you can use the p selector in your CSS. Element selectors are useful when you want to apply a consistent style to a specific type of HTML element throughout your website.
+- The element selector in CSS is used to select and style HTML elements based on their tag names. For example, to style all `<p>` elements on a webpage, you can use the p selector in your CSS. Element selectors are useful when you want to apply a consistent style to a specific type of HTML element throughout your website.
 
 ### Explain some of the HTML5 tags that you know.
 - `<a>` Defines a hyperlink.
