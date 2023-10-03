@@ -248,12 +248,12 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 - The element selector in CSS is used to select and style HTML elements based on their tag names. For example, to style all <p> elements on a webpage, you can use the p selector in your CSS. Element selectors are useful when you want to apply a consistent style to a specific type of HTML element throughout your website.
 
 ### Explain some of the HTML5 tags that you know.
-- <a> Defines a hyperlink.
-- <b> Displays text in a bold style.
-- <div> Specifies a division or a section in a document.
-- <form> Defines an HTML form for user input.
-- <head> Defines the head portion of the document that contains information about the document such as title.
-- <nav> Defines a section of navigation links
+- `<a>` Defines a hyperlink.
+- `<b>` Displays text in a bold style.
+- `<div>` Specifies a division or a section in a document.
+- `<form>` Defines an HTML form for user input.
+- `<head>` Defines the head portion of the document that contains information about the document such as title.
+- `<nav>` Defines a section of navigation links
 
 ### What are the differences between margin and padding?
 #### Margin: 
