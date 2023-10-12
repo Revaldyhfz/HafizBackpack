@@ -3,102 +3,279 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome 
-    <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-        {{name}}
-    </span>
-</h1>
-    
-<p class="text-gray-500 dark:text-gray-400">You have saved <a href="#" class="font-semibold text-gray-900 underline dark:text-white decoration-indigo-500">{{counter}}</a> Fruits in your Backpack
-</p>
+<div class="">
+    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome
+        <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+            {{name}}
+        </span>
+    </h1>
 
-<h5 class="text-gray-500 dark:text-gray-400">Last login session: {{ last_login }}</h5>
-<br/>
+    <p class="text-gray-500 dark:text-gray-400">You have saved <a href="#" class="font-semibold text-gray-900 underline dark:text-white decoration-indigo-500">{{counter}}</a> Fruits in your Backpack
+    </p>
 
-<div class="relative flex justify-center space-x-4">
-    <a href="{% url 'main:create_product' %}">
-        <button type="button" class="flex items-center text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Add New Product
-        </button>
-    </a>  
+    <h5 class="text-gray-500 dark:text-gray-400">Last login session: {{ last_login }}</h5>
+    <br/>
+
+    <div class="relative flex justify-center space-x-4">
+            <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button" class="flex items-center text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Add New Product
+            </button>
+    </div>
+    <br/>
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id = "product_table"></table>
+        {% comment %}
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Name</th>
+                    <th scope="col" class="px-6 py-3">Amount</th>
+                    <th scope="col" class="px-6 py-3">Description</th>
+                    <th scope="col" class="px-6 py-3">Date Added</th>
+                    <th scope="col" class="px-6 py-3">Fruit Type</th>
+                    <th scope="col" class="px-6 py-3">Modify</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+            {% for product in products %}
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                    <td  scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{product.name}}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="relative flex items-center">
+                            <form method="post">
+                                {% csrf_token %}
+                                <button class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="increment">
+
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                    </svg>
+                                </button>
+                                <div class="mx-2">
+                                    {{product.amount}}
+                                </div>
+                                <button class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="decrement">
+
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">{{product.description}}</td>
+                    <td class="px-6 py-4">{{product.date_added}}</td>
+                    <td class="px-6 py-4">{{product.fruit_type}}</td>
+                    <td>
+                        <a href="{% url 'main:delete_product' product.pk %}">
+                            <button class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                Remove
+                            </button>
+                        </a>
+
+                        <a href="{% url 'main:edit_product' product.pk %}">
+                            <button class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                Edit
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+    {% endcomment %}
+
+    <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only" >Close</span>
+                </button>
+                <div class="px-6 py-6 lg:px-8">
+                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add a New Product</h3>
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="id_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
+                            <input type="text" name="name" id="id_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Product Name" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="id_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                            <input type="number" name="amount" id="id_amount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Amount" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="id_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                            <div class="max-h-48 overflow-y-auto">
+                                <textarea name="description" id="id_description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Description" rows="4" required></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="id_fruit_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fruit Type</label>
+                            <select name="fruit_type" id="id_fruit_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                                <option value="">Select Fruit Type</option>
+                                <option value="Logia">Logia</option>
+                                <option value="Paramecia">Paramecia</option>
+                                <option value="Zoan">Zoan</option>
+                                <option value="Mythical Zoan">Mythical Zoan</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="button_add">Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% comment %} <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        Add new product
+    </button> {% endcomment %}
+
+    <div class="relative flex justify-center space-x-4">
+        <a href="{% url 'main:logout' %}">
+            <button type="button" class="flex items-center text-white bg-black hover:bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center border border-gray-800 dark:border-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                </svg>
+                Logout
+            </button>
+        </a>
+    </div>
 </div>
-<br />
-<div class="relative overflow-x-auto rounded-lg shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">Name</th>
-                <th scope="col" class="px-6 py-3">Amount</th>
-                <th scope="col" class="px-6 py-3">Description</th>
-                <th scope="col" class="px-6 py-3">Date Added</th>
-                <th scope="col" class="px-6 py-3">Fruit Type</th>
-                <th scope="col" class="px-6 py-3">Modify</th>
-            </tr>
-        </thead>
 
-        {% comment %} Below is how to show the product data {% endcomment %}
-        <tbody>
-        {% for product in products %}
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+<script>
+    async function getProducts() {
+        return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+    }
+    async function refreshProducts() {
+        document.getElementById("product_table").innerHTML = ""
+        let products = await getProducts()
+        console.log(products)
+        let htmlString = `<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Name</th>
+                    <th scope="col" class="px-6 py-3">Amount</th>
+                    <th scope="col" class="px-6 py-3">Description</th>
+                    <th scope="col" class="px-6 py-3">Date Added</th>
+                    <th scope="col" class="px-6 py-3">Fruit Type</th>
+                    <th scope="col" class="px-6 py-3">Modify</th>
+                </tr>
+            </thead>`
+        products.forEach((product) => {
+            let removeUrl = `/delete/${product.pk}`
+            let editUrl = `/edit-product/${product.pk}`
+            let incrementUrl =`/increment/${product.pk}`
+            let decrementUrl =`/decrement/${product.pk}`
+            htmlString += `\n<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <td  scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{product.name}}
+                    ${product.fields.name}
                 </td>
                 <td class="px-6 py-4">
-                    <div class="relative flex items-center">
-                        <form method="post">
+                    <form onsubmit="return false;" class="">
+                        <div class="relative flex items-center flex-row-reverse">
                             {% csrf_token %}
-                            <button class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="increment">
-                                
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                </svg>
-                            </button>
+                                <button class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                onclick="incrementAjax(${product.pk})">
+
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/">
+                                    </svg>
+                                </button>
+
                             <div class="mx-2">
-                                {{product.amount}}
+                                ${product.fields.amount}
                             </div>
-                            <button class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="decrement">
-                            
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
+                                <button class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                onclick="decrementAjax(${product.pk})"
+                                >
+
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                    </svg>
+                                </button>
+                            </a>
+                        </div>
+                    </form>
                 </td>
-                <td class="px-6 py-4">{{product.description}}</td>
-                <td class="px-6 py-4">{{product.date_added}}</td>
-                <td class="px-6 py-4">{{product.fruit_type}}</td>
-                <td> 
-                    <a href="{% url 'main:delete_product' product.pk %}">
-                        <button class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                            Remove
-                        </button>   
-                    </a>
-                    
-                    <a href="{% url 'main:edit_product' product.pk %}">
+                <td class="px-6 py-4">${product.fields.description}</td>
+                <td class="px-6 py-4">${product.fields.date_added}</td>
+                <td class="px-6 py-4">${product.fields.fruit_type}</td>
+                <td>
+
+                    <button class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    onclick="deleteAjax(${product.pk})"
+            >
+                    Remove
+            </button>
+
+
+
+                    <a href="${editUrl}">
                         <button class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Edit
                         </button>
                     </a>
                 </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+            </tr>`
+        })
 
-<div class="relative flex justify-center space-x-4">
-    <a href="{% url 'main:logout' %}">
-        <button type="button" class="flex items-center text-white bg-black hover:bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center border border-gray-800 dark:border-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-            </svg>
-            Logout
-        </button>
-    </a>
-</div>
-    
+        document.getElementById("product_table").innerHTML = htmlString
+    }
+
+    refreshProducts()
+    function addProduct() {
+        fetch("{% url 'main:add_product_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+    document.getElementById("button_add").onclick = addProduct
+
+    async function increment(pk) {
+        fetch(`/increment/${pk}`, {
+            method: "POST",
+            body: {
+                increment: pk,
+                csrfmiddlewaretoken: document.querySelector("input[name=csrfmiddlewaretoken]").value
+            }
+        })
+    }
+
+    function incrementAjax(id) {
+        fetch("/increment-ajax/" + id + "/", {
+            method: "POST"
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+
+    function decrementAjax(id) {
+        fetch("/decrement-ajax/" + id + "/", {
+            method: "POST"
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+
+    function deleteAjax(id) {
+        fetch("/delete-ajax/" + id + "/", {
+            method: "POST"
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+</script>
+
 {% endblock content %}

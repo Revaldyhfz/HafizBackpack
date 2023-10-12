@@ -69,7 +69,7 @@ Here is the link to my [APP](https://hafizbackpack.adaptable.app/main/)
 
 ### 3. What is the purpose of a virtual environment? Can we create a Django web app without a virtual environment?
   The main goal of an environment is to guarantee that dependencies, between Python projects are kept separate. This allows Python developers to have isolated environments, for each project making the development process more seamless. Technically it is possible to develop a Django web application without using an environment. However this practice is strongly discouraged, especially when working on projects that have dependencies, such, as various versions of Django. It is highly recommended to utilize environments in order to keep projects separate and avoid conflicts. This ensures development without any compatibility issues.
-  
+
 ### 4. What is MVC, MVT, and MVVM? Explain the differences between the three.
 #### MVC (Model-View-Controller):
 Divides an app into Model (data and logic), View (user interface), and Controller (handles user input and updates Model and View).
@@ -91,7 +91,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 
 ## Answers
 
-### What is the difference between POST form and GET form? 
+### What is the difference between POST form and GET form?
 - we use GET when you want to retrieve data from the server without modifying it, on the other hand we use POST when you want to send data to the server to create, update, or perform other actions that may have side effects.
 
 ### What are the main differences between XML, JSON, and HTML in the context of data delivery?
@@ -118,7 +118,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
       ```
 4. Modify the `show_main` function in `views.py`
     - i Added `Products.objects.all` and added a `counter` to count how many items has been added later on in the interface
-5. Creating multiple lines in to view the added objects in `views.py`. 
+5. Creating multiple lines in to view the added objects in `views.py`.
     - in `views.py` i added 4 function named `show_xml`, `show_json`, `show_xml_by_id`, `show_json_by_id`, which each function is used to translate an object to a different format corresponding to the function.
 6. Adding urls path in `urls.py` including the `create_product`  function.
     - in the `urlpatterns` i added 5 new path for xml, json, xml by id, json by id and the `create_product` function
@@ -198,7 +198,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ```
     where it will make a connection from product to a user'
-    - then modify the `create_product` method 
+    - then modify the `create_product` method
     ```
     def create_product(request):
         form = ProductForm(request.POST or None)
@@ -216,7 +216,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
     ```
     if user is not None:
         login(request, user)
-        response = HttpResponseRedirect(reverse("main:show_main")) 
+        response = HttpResponseRedirect(reverse("main:show_main"))
         response.set_cookie('last_login', str(datetime.datetime.now()))
         return response
     ```
@@ -256,17 +256,17 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 - `<nav>` Defines a section of navigation links
 
 ### What are the differences between margin and padding?
-#### Margin: 
+#### Margin:
 - Margin is the space outside an element's border. It creates space between the element and other elements around it. Margin affects the spacing between elements but does not impact the element's background or border.
 
-#### Padding: 
+#### Padding:
 - Padding is the space inside an element's border. It creates space between the element's content and its border. Padding affects the element's background and content but does not impact its position relative to other elements.
 
 ### What are the differences between the CSS framework Tailwind and Bootstrap? When should we use Bootstrap rather than Tailwind, and vice versa?
 #### Tailwind CSS:
 - Tailwind is a utility-first CSS framework. It provides a large set of utility classes that allow you to style elements by applying classes directly in your HTML markup. Tailwind is highly customizable and suitable for projects where you want complete control over the styling.
 
-#### Bootstrap: 
+#### Bootstrap:
 - Bootstrap is a more opinionated CSS framework that comes with pre-designed components and a responsive grid system. It requires less custom styling and is great for quickly prototyping or building consistent-looking websites.
 
 #### When to use Bootstrap or Tailwind depends on the project:
@@ -288,12 +288,12 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
 {% block content %}
 {% include 'navbar.html' %}
 
-<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome 
+<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome
     <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
         {{name}}
     </span>
 </h1>
-    
+
 <p class="text-gray-500 dark:text-gray-400">You have saved <a href="#" class="font-semibold text-gray-900 underline dark:text-white decoration-indigo-500">{{counter}}</a> Fruits in your Backpack
 </p>
 
@@ -308,7 +308,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
             </svg>
             Add New Product
         </button>
-    </a>  
+    </a>
 </div>
 <br />
 <div class="relative overflow-x-auto rounded-lg shadow-md sm:rounded-lg">
@@ -336,7 +336,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
                         <form method="post">
                             {% csrf_token %}
                             <button class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="increment">
-                                
+
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                                 </svg>
@@ -345,7 +345,7 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
                                 {{product.amount}}
                             </div>
                             <button class="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="submit" value="{{ product.id }}" name="decrement">
-                            
+
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                                 </svg>
@@ -356,13 +356,13 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
                 <td class="px-6 py-4">{{product.description}}</td>
                 <td class="px-6 py-4">{{product.date_added}}</td>
                 <td class="px-6 py-4">{{product.fruit_type}}</td>
-                <td> 
+                <td>
                     <a href="{% url 'main:delete_product' product.pk %}">
                         <button class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Remove
-                        </button>   
+                        </button>
                     </a>
-                    
+
                     <a href="{% url 'main:edit_product' product.pk %}">
                         <button class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Edit
@@ -385,10 +385,119 @@ MVT is specific to web frameworks like Django, whereas MVC and MVVM are more gen
         </button>
     </a>
 </div>
-    
+
 {% endblock content %}
 
 ```
 - i added `<div>` to all the elements including the heading, texts and buttons
 - from flowbite, i searched up some templates, and adapt them to my page using resources from tailwind.css
 
+# Assignment 6
+
+## Answers
+
+### Explain the difference between asynchronous programming and synchronous programming.
+- Asynchronous programming allows tasks to run independently without blocking others. It's like doing multiple tasks at the same time.
+
+- Synchronous programming executes tasks sequentially, one after the other, and blocks the program until each task finishes.
+
+### In the implementation of JavaScript and AJAX, there is an implemented paradigm called the event-driven programming paradigm. Explain what this paradigm means and give one example of its implementation in this assignment.
+- Event-driven programming is based on responding to events or triggers (e.g., user clicks or data arrival) instead of a linear sequence. It involves event listeners and callbacks.
+
+- Example: In AJAX, we can set an event listener for a button click. When the button is clicked, it triggers an AJAX request to fetch data.
+
+### Explain the implementation of asynchronous programming in AJAX.
+- In AJAX, asynchronous programming is achieved by using callbacks or promises.
+
+- we can initiate an asynchronous request, and the code continues to execute. When the request completes, a callback function is called to handle the response.
+
+### In this semester, the implementation of AJAX is done using the Fetch API rather than the jQuery library. Compare the two technologies and write down your opinion which technology is better to use.
+- The Fetch API is a modern, built-in JavaScript feature for making HTTP requests and handling responses.
+
+- jQuery is a library that includes AJAX functionality and more.
+
+- Opinion: Using the Fetch API is generally better because it's lightweight, built into modern browsers, and promotes cleaner, more maintainable code. jQuery may be overkill if you only need AJAX.
+
+### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+1. First i installed Flowbite so that i can apply modals to my website following the steps in flowbite official website [Flowbite Quickstart](https://flowbite.com/docs/getting-started/quickstart/)
+
+2. i created multiple function in views to help adapt to my AJAX Table
+
+```
+@csrf_exempt
+@login_required(login_url='/login')
+def add_product_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        fruit_type = request.POST.get("fruit_type")
+        user = request.user
+
+        new_product = Product(name=name, amount=amount, description=description, fruit_type=fruit_type, user=user)
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+
+@csrf_exempt
+@login_required(login_url='/login')
+def increment_ajax(request, id):
+    item = Product.objects.get(pk=id)
+    item.amount += 1
+    item.save()
+    return HttpResponse(b"DELETED", status=201)
+
+@csrf_exempt
+def decrement_ajax(request, id):
+    item = Product.objects.get(pk=id)
+    item.amount -= 1
+    item.save()
+    return HttpResponse(b"DELETED", status=201)
+
+```
+
+3. in main.html,i replaced my table with
+```
+<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id = "product_table"></table>
+```
+where my previous table is moved to script and connected using `id="product_table"`
+
+4. a tag block named refereshProducts() will contain my table
+
+5. from flowbite as reference, i created a modal and its corresponding button for adding a new product
+
+6. to enable function by ajax, i added these functions in the scripts
+```
+function addProduct() {
+        fetch("{% url 'main:add_product_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset()
+        return false
+    }
+    document.getElementById("button_add").onclick = addProduct
+function incrementAjax(id) {
+    fetch("/increment-ajax/" + id + "/", {
+        method: "POST"
+    }).then(refreshProducts)
+
+    document.getElementById("form").reset()
+    return false
+}
+
+function decrementAjax(id) {
+    fetch("/decrement-ajax/" + id + "/", {
+        method: "POST"
+    }).then(refreshProducts)
+
+    document.getElementById("form").reset()
+    return false
+}
+```
+
+7. connecting the function to my modals and buttons by adding ids to the `<button>`

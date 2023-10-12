@@ -8,8 +8,10 @@ from main.views import register
 from main.views import login_user
 from main.views import logout_user
 from main.views import edit_product
-from main.views import delete
 from main.views import delete_product
+from main.views import get_product_json
+from main.views import add_product_ajax
+from main.views import increment, decrement, increment_ajax, decrement_ajax, delete_ajax
 
 app_name = 'main'
 
@@ -25,5 +27,13 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('edit-product/<int:id>', edit_product, name='edit_product'),
     path('delete/<int:id>', delete_product, name='delete_product'),
-    
+    path('get-product/', get_product_json, name='get_product_json'),
+    path('create-product-ajax/', add_product_ajax, name='add_product_ajax'),
+    path('get-product/', get_product_json, name='get_product_json'),
+    path('create-product-ajax/', add_product_ajax, name='add_product_ajax'),
+    path('increment/<int:products>', increment, name='increment'),
+    path('decrement/<int:products>', decrement, name='decrement'),
+    path('increment-ajax/<int:id>/', increment_ajax, name="increment_ajax"),
+    path('decrement-ajax/<int:id>/', decrement_ajax, name="decrement_ajax"),
+    path('delete-ajax/<int:id>/', delete_ajax, name="delete_ajax")
 ]

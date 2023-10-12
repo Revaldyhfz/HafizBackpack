@@ -2,18 +2,19 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound
 from django.urls import reverse
 from main.forms import ProductForm
 from main.models import Product
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages  
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -36,11 +37,12 @@ def show_main(request):
         'products': products,
         'counter' : counter,
         'last_login': request.COOKIES['last_login'],
-        
+
     }
 
     return render(request, "main.html", context)
 
+@login_required(login_url='/login')
 def create_product(request):
     form = ProductForm(request.POST or None)
 
@@ -53,18 +55,22 @@ def create_product(request):
     context = {'form': form}
     return render(request, "create_product.html", context)
 
+@login_required(login_url='/login')
 def show_xml(request):
     data = Product.objects.all()
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
+@login_required(login_url='/login')
 def show_json(request):
     data = Product.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@login_required(login_url='/login')
 def show_xml_by_id(request, id):
     data = Product.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
+@login_required(login_url='/login')
 def show_json_by_id(request, id):
     data = Product.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
@@ -88,7 +94,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main")) 
+            response = HttpResponseRedirect(reverse("main:show_main"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
         else:
@@ -102,23 +108,28 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
-def increment(request, products):  
+@login_required(login_url='/login')
+@csrf_exempt
+def increment(request, products):
     product_id = request.POST.get('increment')
-    product = products.get(id=product_id)
+    product = Product.objects.get(id=product_id)
     product.amount += 1
     product.save()
 
-def decrement(request, products):   
+@login_required(login_url='/login')
+def decrement(request, products):
     product_id = request.POST.get('decrement')
     product = products.get(id=product_id)
     product.amount -= 1
     product.save()
 
-def delete(request, products):   
+@login_required(login_url='/login')
+def delete(request, products):
     product_id = request.POST.get('delete')
     product = products.get(id=product_id)
     product.delete()
-    
+
+@login_required(login_url='/login')
 def edit_product(request, id):
     product = Product.objects.get(pk=id)
 
@@ -133,23 +144,51 @@ def edit_product(request, id):
     context = {'form': form}
     return render(request, "edit_product.html", context)
 
+@login_required(login_url='/login')
 def delete_product(request, id):
     product = Product.objects.get(pk=id)
     product.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
 
-    
-# def edit_product(request, id):
+@login_required(login_url='/login')
+def get_product_json(request):
+    product_item = Product.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', product_item))
 
-#     product = Product.objects.get(pk = id)
+@csrf_exempt
+@login_required(login_url='/login')
+def add_product_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        fruit_type = request.POST.get("fruit_type")
+        user = request.user
 
-    
-#     form = ProductForm(request.POST or None, instance=product)
+        new_product = Product(name=name, amount=amount, description=description, fruit_type=fruit_type, user=user)
+        new_product.save()
 
-#     if form.is_valid() and request.method == "POST":
-        
-#         form.save()
-#         return HttpResponseRedirect(reverse('main:show_main'))
+        return HttpResponse(b"CREATED", status=201)
 
-#     context = {'form': form}
-#     return render(request, "edit_product.html", context)
+    return HttpResponseNotFound()
+
+@csrf_exempt
+@login_required(login_url='/login')
+def increment_ajax(request, id):
+    item = Product.objects.get(pk=id)
+    item.amount += 1
+    item.save()
+    return JsonResponse({"message": "Quantity incremented successfully"})
+
+@csrf_exempt
+def decrement_ajax(request, id):
+    item = Product.objects.get(pk=id)
+    item.amount -= 1
+    item.save()
+    return JsonResponse({"message": "Quantity decremented successfully"})
+
+@csrf_exempt
+def delete_ajax(request, id):
+    item = Product.objects.get(pk=id)
+    item.delete()
+    return JsonResponse({"message": "Product removed successfully"})
