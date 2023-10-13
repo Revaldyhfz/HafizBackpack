@@ -4,29 +4,31 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app \
-    DJANGO_SETTINGS_MODULE=HafizBackpack.settings \
+    DJANGO_SETTINGS_MODULE=inventaris.settings \
     PORT=8000 \
     WEB_CONCURRENCY=2
 
-# Install system packages required Django.
-RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-&& rm -rf /var/lib/apt/lists/*
+RUN apt-get update --yes --quiet \
+    && apt-get install --yes --quiet --no-install-recommends \
+    && apt-get install nodejs -y \
+    && apt install npm -y --fix-missing
 
 RUN addgroup --system django \
     && adduser --system --ingroup django django
 
-# Requirements are installed here to ensure they will be cached.
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-# Copy project code
 COPY . .
 
+RUN python manage.py tailwind install
+RUN python manage.py tailwind build
 RUN python manage.py collectstatic --noinput --clear
 
-# Run as non-root user
 RUN chown -R django:django /app
 USER django
 
-# Run application
-# CMD gunicorn shopping_list.wsgi:application
+# Uncomment below for development
+# RUN python manage.py migrate
+
+# CMD gunicorn HafizBackpack.wsgi:application --bind 0.0.0.0:5000
