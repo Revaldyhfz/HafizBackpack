@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import show_main
+from main.views import create_product_flutter, show_main
 from main.views import show_main, create_product
 from main.views import show_main, create_product, show_xml
 from main.views import show_main, create_product, show_xml, show_json
@@ -35,5 +35,6 @@ urlpatterns = [
     path('decrement/<int:products>', decrement, name='decrement'),
     path('increment-ajax/<int:id>/', increment_ajax, name="increment_ajax"),
     path('decrement-ajax/<int:id>/', decrement_ajax, name="decrement_ajax"),
-    path('delete-ajax/<int:id>/', delete_ajax, name="delete_ajax")
+    path('delete-ajax/<int:id>/', delete_ajax, name="delete_ajax"),
+    path('create-flutter/', create_product_flutter, name='create_product_flutter'),
 ]
