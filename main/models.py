@@ -8,3 +8,4 @@ class Product(models.Model):
     description = models.TextField()
     fruit_type = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_discount = models.BooleanField(default= False)
